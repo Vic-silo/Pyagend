@@ -1,4 +1,5 @@
 import tkinter as tk
+import pandas as pd
 from PIL import ImageTk, Image
 
 BACKG_ROOT = 'media/background.jpg'
@@ -10,6 +11,13 @@ class Gui(tk.Frame):
         '''
         Creacion del objeto GUI
         '''
+        # VAriables dataframe
+        # self.nombre_tarea, self.descripcion,\
+        #     self.tiempo, self.frec = [], [], [], []
+        # Dataframe
+        self.df = pd.DataFrame(
+            columns=['Tarea', 'Descripcion', 'Dias', 'Frecuencia'])
+        # Tkinter
         tk.Frame.__init__(self, parent)
         self.parent = parent
         self.__initGUI()
@@ -41,32 +49,44 @@ class Gui(tk.Frame):
         self.l2 = tk.Label(self.parent, text='Descripción:')
         self.l3 = tk.Label(self.parent, text='Tiempo duración:')
         self.l4 = tk.Label(self.parent, text='Frecuencia:')
-        # Boton de prediccion
-        # self.btn1 = tk.Button(self.parent, text='Predecir', bg='light blue',
-        #                       command=self.__Predict)
+        # Boton de AGREGAR
+        self.btn1 = tk.Button(self.parent, text='AGREGAR', bg='light blue',
+                              command=self.__agregar_datos)
+        # Boton de CONSULTAR
+        self.btn2 = tk.Button(self.parent, text='CONSULTAR', bg='light blue',
+                              command=self.__consultar_datos)
+        # Boton de MODIFICAR
+        self.btn3 = tk.Button(self.parent, text='MODIFICAR', bg='light blue',
+                              command=self.__modificar_datos)
+        # Boton de ELIMINAR
+        self.btn4 = tk.Button(self.parent, text='ELIMINAR', bg='light blue',
+                              command=self.__eliminar_datos)
         # Boton de cierre de GUI
         self.btnExit = tk.Button(self.parent, text='SALIR', bg='red',
                                  fg='white', command=self.__Exit)
         # Campos de entrada
         self.in1 = tk.Entry(self.parent)
-        self.in1.insert(0,'escribe aqui')
+        # self.in1.insert(0,'')
         self.in2 = tk.Entry(self.parent)
-        self.in2.insert(0,'escribe aqui')
+        # self.in2.insert(0,'escribe aqui')
         self.in3 = tk.Entry(self.parent)
-        self.in3.insert(0,'escribe aqui')
+        # self.in3.insert(0,'escribe aqui')
         self.in4 = tk.Entry(self.parent)
-        self.in4.insert(0,'escribe aqui')
+        # self.in4.insert(0,'escribe aqui')
         # Posicionado de los elementos
-        self.h1.place(x=200, y=220)
-        self.l1.place(x=70, y=250)
-        self.in1.place(x=200, y=250)
-        self.l2.place(x=70, y=270)
-        self.in2.place(x=200, y=270)
-        self.l3.place(x=70, y=290)
-        self.in3.place(x=200, y=290)
-        self.l4.place(x=70, y=310)
-        self.in4.place(x=200, y=310)
-        # self.btn1.place(x=730, y=150)
+        self.h1.place(x=200, y=120)
+        self.l1.place(x=70, y=150)
+        self.in1.place(x=200, y=150)
+        self.l2.place(x=70, y=170)
+        self.in2.place(x=200, y=170)
+        self.l3.place(x=70, y=190)
+        self.in3.place(x=200, y=190)
+        self.l4.place(x=70, y=210)
+        self.in4.place(x=200, y=210)
+        self.btn1.place(x=150, y=350)
+        self.btn2.place(x=230, y=350)
+        self.btn3.place(x=325, y=350)
+        self.btn4.place(x=410, y=350)
         self.btnExit.place(x=550, y=350)
 
     def __Exit(self):
@@ -77,28 +97,63 @@ class Gui(tk.Frame):
         self.parent.quit()
         self.parent.destroy()
 
-    # def agregar_datos(self):
-    #     global nombre1, apellido1, dni1, correo1, telefono1
-    #
-    #     nombre1.append(ingresa_nombre.get())
-    #     apellido1.append(ingresa_apellido.get())
-    #     edad1.append(ingresa_edad.get())
-    #     correo1.append(ingresa_correo.get())
-    #     telefono1.append(ingresa_telefono.get())
-    #
-    #     ingresa_nombre.delete(0, END)
-    #     ingresa_apellido.delete(0, END)
-    #     ingresa_edad.delete(0, END)
-    #     ingresa_correo.delete(0, END)
-    #     ingresa_telefono.delete(0, END)
-    #
-    # def guardar_datos(self):
-    #     global nombre1, apellido1, edad1, correo1, telefono1
-    #     datos = {'Nombres': nombre1, 'Apellidos': apellido1, 'Edad': edad1,
-    #              'Correo': correo1, 'Telefono': telefono1}
-    #     nom_excel = str(nombre_archivo.get() + ".xlsx")
-    #     df = pd.DataFrame(datos,
-    #                       columns=['Nombres', 'Apellidos', 'Edad', 'Correo',
-    #                                'Telefono'])
-    #     df.to_excel(nom_excel)
-    #     nombre_archivo.delete(0, END)
+    def __agregar_datos(self):
+        '''
+        Guarda los datos en dataframe
+        :return:
+        '''
+
+        # Registra valores introducidos
+        tarea=self.in1.get()
+        descripcion=self.in2.get()
+        dias=self.in3.get()
+        frecuencia=self.in4.get()
+
+        # Añadir datos al dataframe
+        datos = {'Tarea': tarea, 'Descripcion': descripcion, 'Dias': dias,
+                 'Frecuencia': frecuencia}
+
+        self.df = self.df.append(datos, ignore_index=True)
+
+        # Borrar datos
+        self.in1.delete(0, tk.END)
+        self.in2.delete(0, tk.END)
+        self.in3.delete(0, tk.END)
+        self.in4.delete(0, tk.END)
+
+        print(self.df)
+
+    def __consultar_datos(self):
+        '''
+        Consultar datos por TAREA
+        :return:
+        '''
+
+        campo=self.in1.get()
+
+        df_busqueda = self.df['Tarea'==campo]
+
+        # if len(df_busqueda)>0:
+        #
+        #
+        # root = tk.Tk()
+        table = tk.Text()
+        table.insert(tk.INSERT, df_busqueda.to_string())
+        table.place(x=500, y=75)
+        table.pack()
+
+        # root.mainloop()
+
+    def __modificar_datos(self):
+        '''
+
+        :return:
+        '''
+        pass
+
+    def __eliminar_datos(self):
+        '''
+
+        :return:
+        '''
+        pass
