@@ -39,9 +39,9 @@ class Gui(tk.Frame):
 
         # Widgets GUI
         # Titulo herramienta
-        self.h1 = tk.Label(self.parent,
-                           text='AÑADA EVENTO',
-                           foreground='blue')
+        # self.h1 = tk.Label(self.parent,
+        #                    text='AÑADA EVENTO',
+        #                    foreground='blue')
         # Labels indicar campo de entrada
         self.l1 = tk.Label(self.parent, text='Tarea:')
         self.l2 = tk.Label(self.parent, text='Descripción:')
@@ -72,7 +72,7 @@ class Gui(tk.Frame):
         self.in4 = tk.Entry(self.parent)
         # self.in4.insert(0,'escribe aqui')
         # Posicionado de los elementos
-        self.h1.place(x=200, y=120)
+        # self.h1.place(x=200, y=120)
         self.l1.place(x=70, y=150)
         self.in1.place(x=200, y=150)
         self.l2.place(x=70, y=170)
@@ -126,7 +126,7 @@ class Gui(tk.Frame):
         Consultar datos por TAREA
         :return:
         '''
-        
+
         # Obtenemos valor de la consulta
         campo=self.in1.get()
 
@@ -141,10 +141,22 @@ class Gui(tk.Frame):
 
     def __modificar_datos(self):
         '''
-
+        Busca dato por TAREA y modifica por index
         :return:
         '''
-        pass
+        def modificar(indice):
+            self.df.loc[self.df.index[indice], 'Tarea'] = self.in1
+            self.df.loc[self.df.index[indice], 'Descripcion'] = self.in2
+            self.df.loc[self.df.index[indice], 'Dias'] = self.in3
+            self.df.loc[self.df.index[indice], 'Frecuencia'] = self.in4
+
+        # Indicar campo indice y ok
+        label_indice=tk.Label(self.parent, text='Indice:')
+        indice=tk.Entry(self.parent)
+        modificar=tk.Button(self.parent, text='OK', bg='orange',
+                              command=modificar(indice))
+        # Buscar datos por tarea
+        self.__consultar_datos()
 
     def __eliminar_datos(self):
         '''
