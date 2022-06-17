@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 import pandas as pd
 from PIL import ImageTk, Image
 
@@ -11,9 +12,6 @@ class Gui(tk.Frame):
         '''
         Creacion del objeto GUI
         '''
-        # VAriables dataframe
-        # self.nombre_tarea, self.descripcion,\
-        #     self.tiempo, self.frec = [], [], [], []
         # Dataframe
         self.df = pd.DataFrame(
             columns=['Tarea', 'Descripcion', 'Dias', 'Frecuencia'])
@@ -128,21 +126,18 @@ class Gui(tk.Frame):
         Consultar datos por TAREA
         :return:
         '''
-
+        
+        # Obtenemos valor de la consulta
         campo=self.in1.get()
 
-        df_busqueda = self.df['Tarea'==campo]
+        # Obtenemos datos de la consulta
+        df_busqueda=self.df[self.df['Tarea'] == campo]
+        df_busqueda=df_busqueda.to_string()
 
-        # if len(df_busqueda)>0:
-        #
-        #
-        # root = tk.Tk()
-        table = tk.Text()
-        table.insert(tk.INSERT, df_busqueda.to_string())
-        table.place(x=500, y=75)
-        table.pack()
+        # Mostramos consulta
+        messagebox.showinfo(title='RESULTADO CONSULTA',
+                            message=df_busqueda)
 
-        # root.mainloop()
 
     def __modificar_datos(self):
         '''
