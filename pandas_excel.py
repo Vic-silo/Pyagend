@@ -1,7 +1,3 @@
-# Registro de datos en excel desde una GUI en Tkinter 
-# @autor: Magno Efren
-# Youtube: https://www.youtube.com/c/MagnoEfren
-
 from tkinter import Tk, Label, Button,Entry, Frame, END
 import pandas as pd
 
