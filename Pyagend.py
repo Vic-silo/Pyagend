@@ -130,13 +130,28 @@ class Gui(tk.Frame):
         # Obtenemos valor de la consulta
         campo=self.in1.get()
 
+        # Obtenemos valor de la consulta
+        campo=self.in1.get()
+        
         # Obtenemos datos de la consulta
         df_busqueda=self.df[self.df['Tarea'] == campo]
-        df_busqueda=df_busqueda.to_string()
+        # Pasamos los datos encontrados a una lista
+        datos=df_busqueda.to_numpy().tolist()
+        
+        # Borramos los datos de los campos y mostramos los encontrados
+        self.in1.delete(0, tk.END)
+        self.in2.delete(0, tk.END)
+        self.in3.delete(0, tk.END)
+        self.in4.delete(0, tk.END)
+        
+        self.in1.insert(0, datos[0][0])
+        self.in2.insert(0, datos[0][1])
+        self.in3.insert(0, datos[0][2])
+        self.in4.insert(0, datos[0][2])
 
         # Mostramos consulta
-        messagebox.showinfo(title='RESULTADO CONSULTA',
-                            message=df_busqueda)
+        #messagebox.showinfo(title='RESULTADO CONSULTA',
+        #                    message=df_busqueda)
 
 
     def __modificar_datos(self):
