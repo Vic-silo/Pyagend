@@ -3,7 +3,7 @@ from tkinter import messagebox
 import pandas as pd
 from PIL import ImageTk, Image
 
-BACKG_ROOT = 'C:/Users/pablo.ruiz/Documents/Python/Scrum/background.jpg'
+BACKG_ROOT = 'media/background.jpg'
 
 class Gui(tk.Frame):
 
