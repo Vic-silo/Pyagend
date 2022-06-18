@@ -3,8 +3,7 @@ from tkinter import messagebox
 import pandas as pd
 from PIL import ImageTk, Image
 
-BACKG_ROOT = 'media/background.jpg'
-
+BACKG_ROOT = 'C:/Users/pablo.ruiz/Documents/Python/Scrum/background.jpg'
 
 class Gui(tk.Frame):
 
@@ -71,8 +70,8 @@ class Gui(tk.Frame):
         # self.in3.insert(0,'escribe aqui')
         self.in4 = tk.Entry(self.parent)
         # self.in4.insert(0,'escribe aqui')
+        
         # Posicionado de los elementos
-        # self.h1.place(x=200, y=120)
         self.l1.place(x=70, y=150)
         self.in1.place(x=200, y=150)
         self.l2.place(x=70, y=170)
@@ -129,14 +128,10 @@ class Gui(tk.Frame):
 
         # Obtenemos valor de la consulta
         campo=self.in1.get()
-
-        # Obtenemos valor de la consulta
-        campo=self.in1.get()
         
         # Obtenemos datos de la consulta
-        df_busqueda=self.df[self.df['Tarea'] == campo]
-        # Pasamos los datos encontrados a una lista
-        datos=df_busqueda.to_numpy().tolist()
+        busqueda = self.df.index[self.df['Tarea'] == campo].tolist()
+        busqueda = busqueda[0]
         
         # Borramos los datos de los campos y mostramos los encontrados
         self.in1.delete(0, tk.END)
@@ -144,10 +139,10 @@ class Gui(tk.Frame):
         self.in3.delete(0, tk.END)
         self.in4.delete(0, tk.END)
         
-        self.in1.insert(0, datos[0][0])
-        self.in2.insert(0, datos[0][1])
-        self.in3.insert(0, datos[0][2])
-        self.in4.insert(0, datos[0][2])
+        self.in1.insert(0, self.df.iloc[busqueda]['Tarea'])
+        self.in2.insert(0, self.df.iloc[busqueda]['Descripcion'])
+        self.in3.insert(0, self.df.iloc[busqueda]['Dias'])
+        self.in4.insert(0, self.df.iloc[busqueda]['Frecuencia'])
 
         # Mostramos consulta
         #messagebox.showinfo(title='RESULTADO CONSULTA',
@@ -159,23 +154,25 @@ class Gui(tk.Frame):
         Busca dato por TAREA y modifica por index
         :return:
         '''
-        def modificar(indice):
-            self.df.loc[self.df.index[indice], 'Tarea'] = self.in1
-            self.df.loc[self.df.index[indice], 'Descripcion'] = self.in2
-            self.df.loc[self.df.index[indice], 'Dias'] = self.in3
-            self.df.loc[self.df.index[indice], 'Frecuencia'] = self.in4
+        # Buscamos la fila a modificar
+        indice = self.df.index[self.df['Tarea'] == self.in1.get()].tolist()
+        indice = indice[0]
 
-        # Indicar campo indice y ok
-        label_indice=tk.Label(self.parent, text='Indice:')
-        indice=tk.Entry(self.parent)
-        modificar=tk.Button(self.parent, text='OK', bg='orange',
-                              command=modificar(indice))
-        # Buscar datos por tarea
+        self.df.iloc[indice]['Tarea'] = self.in1.get()
+        self.df.iloc[indice]['Descripcion'] = self.in2.get()
+        self.df.iloc[indice]['Dias'] = self.in3.get()
+        self.df.iloc[indice]['Frecuencia'] = self.in4.get()
+        
         self.__consultar_datos()
+        print(self.df)
 
     def __eliminar_datos(self):
         '''
-
         :return:
         '''
-        pass
+        # Buscamos la fila a borrar
+        indice = self.df.index[self.df['Tarea'] == self.in1.get()].tolist()
+        indice = indice[0]
+
+        self.df = self.df.drop(indice)
+        print(self.df)
