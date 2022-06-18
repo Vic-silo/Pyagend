@@ -139,6 +139,7 @@ class Gui(tk.Frame):
         self.in3.delete(0, tk.END)
         self.in4.delete(0, tk.END)
         
+        # mostramos los datos encontrados
         self.in1.insert(0, self.df.iloc[busqueda]['Tarea'])
         self.in2.insert(0, self.df.iloc[busqueda]['Descripcion'])
         self.in3.insert(0, self.df.iloc[busqueda]['Dias'])
@@ -158,6 +159,7 @@ class Gui(tk.Frame):
         indice = self.df.index[self.df['Tarea'] == self.in1.get()].tolist()
         indice = indice[0]
 
+        # Ponemos los nuevos valores que hay en pantalla
         self.df.iloc[indice]['Tarea'] = self.in1.get()
         self.df.iloc[indice]['Descripcion'] = self.in2.get()
         self.df.iloc[indice]['Dias'] = self.in3.get()
@@ -174,5 +176,6 @@ class Gui(tk.Frame):
         indice = self.df.index[self.df['Tarea'] == self.in1.get()].tolist()
         indice = indice[0]
 
+        # Eliminamos la Tarea
         self.df = self.df.drop(indice)
         print(self.df)
